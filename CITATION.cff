@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "techiaith-speech-normalizer: Normaleiddiwr Lleferydd Cymraeg / Welsh Speech Normalizer"
+type: software
+authors:
+  - family-names: Jones
+    given-names: Dewi Bryn
+    affiliation: "Uned Technolegau Iaith, Prifysgol Bangor / Language Technologies Unit, Bangor University"
+  - family-names: Wanasky
+    given-names: Sasha
+    affiliation: "Prifysgol Bangor / Bangor University"
+repository-code: "https://github.com/techiaith/techiaith-speech-normalizer"
+license: MIT
+version: 0.2.0
+date-released: "2026-10-28"
+keywords:
+  - welsh
+  - cymraeg
+  - speech recognition
+  - transcription
+  - text normalization
+  - nlp
