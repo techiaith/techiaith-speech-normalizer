@@ -6,7 +6,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
-## [0.2.0] - 2026-10-28
+## [0.2.0] - 2026-10-29
 
 First public release, on GitHub and PyPI. Changes since 0.1.0:
 
