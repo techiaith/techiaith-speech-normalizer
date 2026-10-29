@@ -32,12 +32,43 @@ Ar ôl eu newid:
 
 ### Rhyddhau fersiwn newydd (cynhalwyr)
 
-1. Diweddarwch `version` yn `pyproject.toml` a symudwch y nodiadau yn
+1. Mewn cais tynnu, diweddarwch `version` yn `pyproject.toml`, diweddarwch
+   `version` a `date-released` yn `CITATION.cff`, a symudwch y nodiadau yn
    `CHANGELOG.md` o "Unreleased" i bennawd y fersiwn newydd, gyda'r dyddiad.
-2. Gwnewch commit a gwthiwch i `main`.
-3. Crëwch dag a datganiad (release) ar GitHub, e.e. `v0.3.0`. Mae'r llif gwaith
-   `.github/workflows/publish.yml` yn adeiladu'r pecyn, yn ei gyhoeddi ar PyPI
-   ac yn atodi'r ffeiliau i'r datganiad yn awtomatig.
+2. Ar ôl ei uno, tagiwch y commit newydd ar `main` a gwthiwch y tag:
+
+   ```bash
+   git switch main && git pull
+   git tag -a v0.3.0 -m v0.3.0
+   git push origin v0.3.0
+   ```
+
+3. Mae'r llif gwaith `.github/workflows/publish.yml` yn gwirio bod y tag ar
+   `main` a'i fod yn cyfateb i'r fersiwn yn `pyproject.toml`, `CITATION.cff` a
+   `CHANGELOG.md`, ac yna'n adeiladu'r pecyn. Mae cyhoeddi ar PyPI yn aros am
+   gymeradwyaeth yn yr amgylchedd `pypi` (y botwm "Review deployments" yn
+   rhediad y llif gwaith). Wedyn mae'r llif gwaith yn creu'r datganiad (release)
+   ar GitHub, gyda'r ffeiliau a'r nodiadau o `CHANGELOG.md`.
+
+Dim ond gweinyddwyr yr ystorfa sy'n gallu gwthio tagiau `v*`. Ni ellir newid
+datganiad ar ôl ei gyhoeddi, ar PyPI nac ar GitHub: rhaid rhyddhau fersiwn
+newydd i gywiro camgymeriad.
+
+Mae'r offer sy'n adeiladu'r pecyn wedi'u pinio gyda hashes yn
+`.github/build-requirements.txt`, ac mae Dependabot yn cynnig diweddariadau
+iddynt ac i'r GitHub Actions. I'w newid â llaw, golygwch
+`.github/build-requirements.in` a rhedwch:
+
+```bash
+uvx --python 3.12 --from pip-tools pip-compile --generate-hashes --strip-extras --output-file .github/build-requirements.txt .github/build-requirements.in
+```
+
+Mae cyhoeddi ar PyPI yn defnyddio
+[cyhoeddi dibynadwy (trusted publishing)](https://docs.pypi.org/trusted-publishers/),
+felly nid oes tocyn API yn cael ei gadw yn unman. Mae'r cyhoeddwr dibynadwy ar
+PyPI wedi'i osod i berchennog `techiaith`, ystorfa `techiaith-speech-normalizer`,
+llif gwaith `publish.yml` ac amgylchedd `pypi`; os caiff ffeil y llif gwaith
+neu'r amgylchedd eu hailenwi, bydd cyhoeddi'n methu nes eu diweddaru yno hefyd.
 
 ## English
 
@@ -71,19 +102,39 @@ After changing them:
 
 ### Releasing a new version (maintainers)
 
-1. Update `version` in `pyproject.toml` and move the notes in `CHANGELOG.md`
+1. In a pull request, update `version` in `pyproject.toml`, update `version`
+   and `date-released` in `CITATION.cff`, and move the notes in `CHANGELOG.md`
    from "Unreleased" to a heading for the new version, with the date.
-2. Commit and push to `main`.
-3. Create a tag and a GitHub release, e.g. `v0.3.0`. The
-   `.github/workflows/publish.yml` workflow builds the package, publishes it to
-   PyPI and attaches the files to the release automatically. The release tag
-   must match the version in `pyproject.toml`, or the workflow fails before
-   publishing anything.
+2. Once it is merged, tag the new commit on `main` and push the tag:
 
-One-time setup for PyPI publishing: the workflow uses
+   ```bash
+   git switch main && git pull
+   git tag -a v0.3.0 -m v0.3.0
+   git push origin v0.3.0
+   ```
+
+3. The `.github/workflows/publish.yml` workflow checks that the tag is on
+   `main` and matches the versions in `pyproject.toml`, `CITATION.cff` and
+   `CHANGELOG.md`, then builds the package. Publishing to PyPI waits for
+   approval in the `pypi` environment (the "Review deployments" button on the
+   workflow run). The workflow then creates the GitHub release, with the files
+   and the notes from `CHANGELOG.md`.
+
+Only repository admins can push `v*` tags. A release cannot be changed once it
+is published, on PyPI or on GitHub: fix a mistake by releasing a new version.
+
+The tools that build the package are pinned with hashes in
+`.github/build-requirements.txt`, and Dependabot proposes updates to them and
+to the GitHub Actions. To change them by hand, edit
+`.github/build-requirements.in` and run:
+
+```bash
+uvx --python 3.12 --from pip-tools pip-compile --generate-hashes --strip-extras --output-file .github/build-requirements.txt .github/build-requirements.in
+```
+
+PyPI publishing uses
 [trusted publishing](https://docs.pypi.org/trusted-publishers/), so no API
-token is stored in the repository. On PyPI, add a trusted publisher for the
-project `techiaith-speech-normalizer` with owner `techiaith`, repository
-`techiaith-speech-normalizer`, workflow `publish.yml` and environment `pypi`.
-The first release can be registered as a "pending publisher" before the project
-exists on PyPI.
+token is stored anywhere. The trusted publisher on PyPI is set to owner
+`techiaith`, repository `techiaith-speech-normalizer`, workflow `publish.yml`
+and environment `pypi`; renaming the workflow file or the environment breaks
+publishing until it is updated there too.

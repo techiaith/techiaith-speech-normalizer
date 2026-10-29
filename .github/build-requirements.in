@@ -1,0 +1,4 @@
+# Tools that .github/workflows/publish.yml uses to build the sdist and wheel.
+# build-requirements.txt pins them with hashes; Dependabot keeps it up to date.
+build
+hatchling
