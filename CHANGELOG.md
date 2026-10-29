@@ -26,11 +26,13 @@ First public release, on GitHub and PyPI. Changes since 0.1.0:
   leading apostrophe (`'di`, `'na`).
 - `COMPARISON.md`, comparing this normaliser with OpenAI Whisper's text
   normalisers.
-- GitHub Actions workflows for tests and for publishing to PyPI, plus
-  `CONTRIBUTING.md` and `CITATION.cff`.
+- GitHub Actions workflows for tests and for publishing releases to PyPI and
+  GitHub, plus `CONTRIBUTING.md`, `SECURITY.md` and `CITATION.cff`.
 
 ### Changed
 - Package renamed to the `techiaith.speech_normalizer` namespace.
+- Python 3.9 or later is now required; support for Python 3.8 has been
+  dropped.
 - The README now states that `remove_tags` and `remove_asterisks` are off by
   default (as the code has always behaved), and its examples reflect the
   current hesitation standardisation (`yy`/`yrm`/`ymm` → `yym`).

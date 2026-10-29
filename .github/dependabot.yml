@@ -1,0 +1,23 @@
+# The cooldown holds back new releases for a week, so a compromised release is
+# likely to be found and pulled before it reaches this repository.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      github-actions:
+        patterns: ["*"]
+
+  - package-ecosystem: pip
+    directory: /.github
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      build-tools:
+        patterns: ["*"]
